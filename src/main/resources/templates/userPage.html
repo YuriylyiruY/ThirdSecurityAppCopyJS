@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<f1>Hello USER!</f1>
+
+<div th:object="${person}">
+    <div th:text="${person.getId()}">user</div>
+    <div th:text="${person.getName()}">user</div>
+    <div th:text="${person.getAge()}">user</div>
+    <div th:text="${person.getAuths()}">user</div>
+    <div th:text="${person.getEmail()}">user</div>
+</div>
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="Logout"/>
+</form>
+</body>
+</html>
