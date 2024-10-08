@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface AuthRepository extends JpaRepository<Auth, Integer> {
 
 
-  Optional <Auth>findByRole(String role);
+    Optional<Auth> findByRole(String role);
 
 }
 

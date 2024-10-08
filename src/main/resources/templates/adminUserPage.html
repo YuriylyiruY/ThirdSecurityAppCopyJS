@@ -43,7 +43,7 @@
             font-size: 25px;
             background-color: lightgrey;
 
-            border: 2px solid darkgray;
+            border:2px solid darkgray;
         }
 
 
@@ -99,28 +99,178 @@
             margin-bottom: 10px;
         }
 
+        /*formDecoration*/
+        .modal-content {
+            position: absolute;
+            z-index: 777;
+            width: 400px;
+            height: 600px;
+        }
+
+        .modal-body {
+
+            width: 400px;
+            height: 600px;
+        }
+
+        .modal-form {
+
+            width: 300px;
+            height: 400px;
+        }
+
+        .modal-form1 {
+
+            width: 300px;
+            height: 426px;
+        }
+
+        .modal-form2 {
+
+            width: 300px;
+            height: 329px;
+            margin-left: -28px;
+        }
+
+        .mbForm {
+            height: 25px;
+            width: 390px;
+            margin-left: 44px;
+
+        }
+
+        .mbFormInput {
+
+            height: 25px;
+            width: 200px;
+            margin-left: 44px;
+        }
+
+        .mbFormInput1 {
+
+            height: 25px;
+            width: 200px;
+            margin-left: 44px;
+        }
+
+        .mbFormInput2 {
+
+            height: 25px;
+            width: 279px;
+            margin-left: 3px;
+        }
+
+        .formLabel {
+            margin-top: 5px;
+            width: 200px;
+            margin-left: 32px;
+            text-align: center;
+            font-weight: 900;
+        }
+
+        .formLabel1 {
+            margin-top: 5px;
+            width: 200px;
+            margin-left: 32px;
+            text-align: center;
+            font-weight: 900;
+        }
+
+        .mbFormInputSelect {
+            margin-left: 87px;
+            height: 70px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .formLabelSelect {
+            margin-left: 154px;
+            padding-top: 12px;
+            font-weight: 900;
+        }
+
+        .formLabelSelect1 {
+            margin-left: 109px;
+            font-size: 15px;
+            font-weight: 900;
+
+        }
+
+        .mbFormInputSelect1 {
+            margin-left: 42px;
+            width: 202px;
+            height: 58px;
+            font-size: 15px;
+        }
 
 
+        .editBtn1 {
+            margin-left: 1px;
+            margin-top: 1px;
+        }
+
+        .footerStyle1 {
+            position: absolute;
+            top: 529px;
+            left: 0;
+        }
+
+        .modal-body2 {
+            width: 398px;
+        }
 
         .superAdmin {
             background-color: lightgrey;
             height: 100vh;
         }
 
-
+        .modalFooterCreate {
+            margin-left: 116px;
+            margin-top: 375px;
+            position: absolute;
+        }
 
         .forFormCreateSuper {
             background-color: lightgrey;
             padding: 0;
             height: 535px;
             position: relative;
-            left: 19px;
+            left:19px;
 
         }
 
+        .addNewUser {
+            background-color: lightgrey;
+            font-size: 25px;
+            height: 57px;
+            padding-top: 7px;
+            border: 2px solid darkgray;
+            padding-left: 20px;
 
+        }
 
+        .addNewUserSuper {
+            height: 535px;
+            margin: 0;
+            padding: 0;
 
+        }
+        .addNewUserCol12{
+            height: 0;
+
+        }
+
+        .mbFormInput2Select {
+            height: 65px;
+        }
+
+        .formHeightReg {
+            height: 458px;
+            margin: auto;
+            background-color: white;
+            padding-left:360px;
+
+        }
 
         /*ALL Users block*/
         .block2 {
@@ -128,7 +278,7 @@
             top: -535px;
             left: -12px;
             background-color: white;
-            margin-left: 19px;
+            margin-left:19px;
         }
     </style>
 
@@ -140,7 +290,7 @@
 <div class="container-fluid ">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid d-flex justify-content-between">
-            <div class="navbar-brand">user@mail.ru</div>
+            <div class="navbar-brand">admin@mail.ru</div>
 
 
             <form class="d-flex btnLogOut" th:action="@{/logout}" th:method="POST">
@@ -152,15 +302,20 @@
 </div>
 <!--TableModal3Create-->
 <div class="container-fluid d-flex flex-row ">
-    <div class="btn-group   flex-column col-2  groupBtn" role="group" aria-label="Default button group">
 
-        <button type="button" class="btn btn-outline-primary active">User</button>
 
-    </div>
+        <div class="btn-group  groupBtnUserPage  flex-column col-2  groupBtn" role="group" aria-label="Default button group">
+
+            <a type="button" class="btn btn-outline-primary active" th:href="@{/adminPage}">Admin</a>
+            <button type="button" class="btn   user">User</button>
+
+        </div>
+
+
     <div class="container-fluid superAdmin">
         <div class="container  row col-12 adminPanel">
 
-            <div class="col-12 adminPanelS">User information-page</div>
+            <div class="col-12 adminPanelS">Admin panel</div>
 
             <div class="forFormCreateSuper  row">
 
@@ -183,7 +338,7 @@
 
                         </tr>
                         </thead>
-                        <tbody class=" table table-striped" th:class="${person.getId()}" >
+                        <tbody class=" table table-striped" th:class="${person.getId()}">
                         <tr>
                             <td th:text="${person.getId()}">Otto</td>
                             <td th:text="${person.getName()}"></td>
@@ -210,17 +365,6 @@
 
     </div>
 </div>
-<f1>Hello USER!</f1>
 
-<div th:object="${person}">
-    <div th:text="${person.getId()}">user</div>
-    <div th:text="${person.getName()}">user</div>
-    <div th:text="${person.getAge()}">user</div>
-    <div th:text="${person.getAuths()}">user</div>
-    <div th:text="${person.getEmail()}">user</div>
-</div>
-<form th:action="@{/logout}" th:method="POST">
-    <input type="submit" value="Logout"/>
-</form>
 </body>
 </html>

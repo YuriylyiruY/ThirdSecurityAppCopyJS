@@ -5,8 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -21,6 +20,11 @@ public class User {
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     @Column(name = "name")
     private String name;
+
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @Column(name = "last_name")
+    private String lastName;
 
     @Min(value = 0, message = "Age should be greater than 0")
     @Column(name = "age")
@@ -49,18 +53,21 @@ public class User {
     public User() {
     }
 
-    public User(int age, String email, String name, String password) {
+    public User(String name, String lastName, int age, String email, String password, Set<Auth> auths) {
+        this.name = name;
+        this.lastName = lastName;
         this.age = age;
         this.email = email;
-        this.name = name;
         this.password = password;
+        this.auths = auths;
     }
 
-    public void addAuth(Auth auth) {
-        if (auths == null) {
-            auths = new HashSet<>();
-        }
-        auths.add(auth);
+    public @NotEmpty(message = "Name should not be empty") @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters") String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(@NotEmpty(message = "Name should not be empty") @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters") String lastName) {
+        this.lastName = lastName;
     }
 
     public Set<Auth> getAuths() {
@@ -68,11 +75,13 @@ public class User {
     }
 
 
-
     public void setAuths(Auth auth) {
         auths.add(auth);
 
     }
+
+
+
 
     @Min(value = 0, message = "Age should be greater than 0")
     public int getAge() {
@@ -119,12 +128,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "person_id=" + person_id +
-                ", name='" + name + '\'' +
+                "email='" + email + '\'' +
                 ", age=" + age +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", auths=" + auths +
+                ", lastName='" + lastName + '\'' +
+                ", name='" + name + '\'' +
+                ", person_id=" + person_id +
                 '}';
     }
 }

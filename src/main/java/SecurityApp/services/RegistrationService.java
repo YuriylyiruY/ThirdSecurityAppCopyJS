@@ -10,6 +10,7 @@ import SecurityApp.models.User;
 import SecurityApp.repositories.AuthRepository;
 import SecurityApp.repositories.PeopleRepository;
 
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -42,58 +43,49 @@ public class RegistrationService {
 
     }
 
-    @Transactional
-    public void registerAdmin(User user) {
+    public void makeEncode(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         peopleRepository.save(user);
+    }
 
+    public void addRolesToTable(User user) {
         Auth auth = new Auth("ROLE_USER");
         Auth auth2 = new Auth("ROLE_ADMIN");
 
         if (findByRole("ROLE_USER")) {
-
-
             authRepository.save(auth);
             authRepository.save(auth2);
             // auth.setPeople(user);
             // auth2.setPeople(user);
             user.setAuths(auth);
             user.setAuths(auth2);
-
-
         }
-        Auth auth3 = personDetailsService.findRole("ROLE_USER");
-        Auth auth4 = personDetailsService.findRole("ROLE_ADMIN");
-        System.out.println("hhhhhhhhhhhhhh");
-        // auth3.setPeople(user);
-        // auth4.setPeople(user);
-        user.setAuths(auth3);
-        user.setAuths(auth4);
     }
 
     @Transactional
-    public void register(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        peopleRepository.save(user);
-
-        Auth auth = new Auth("ROLE_USER");
-        Auth auth2 = new Auth("ROLE_ADMIN");
-
-
-        if (findByRole("ROLE_USER")) {
-
-
-            this.auth1 = authRepository.save(auth);
-            authRepository.save(auth2);
-            //   auth1.setPeople(user);
-            user.setAuths(auth1);
-
-
-        }
-        Auth auth3 = personDetailsService.findRole("ROLE_USER");
+    public void registerSuperAdmin(User user) {
         System.out.println("hhhhhhhhhhhhhh");
-        //  auth3.setPeople(user);
-        user.setAuths(auth3);
+        Auth auth3 = personDetailsService.findRole("ROLE_USER");
+        Auth auth4 = personDetailsService.findRole("ROLE_ADMIN");
+        auth3.setPeople(user);
+        auth4.setPeople(user);
+
     }
+
+    @Transactional
+    public void registerAdmin(User user, Auth auth4) {
+
+        if (Objects.equals(auth4.getRole(), "ADMIN")) {
+            auth4 = personDetailsService.findRole("ROLE_ADMIN");
+            user.setAuths(auth4);
+        } else {
+            auth4 = personDetailsService.findRole("ROLE_USER");
+            user.setAuths(auth4);
+        }
+
+
+    }
+
+
 
 }
