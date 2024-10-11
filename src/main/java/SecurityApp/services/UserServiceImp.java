@@ -1,31 +1,27 @@
 package SecurityApp.services;
 
 
-import SecurityApp.models.Auth;
 import SecurityApp.models.User;
-import SecurityApp.repositories.AuthRepository;
+import SecurityApp.repositories.RoleRepository;
+import SecurityApp.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import SecurityApp.repositories.PeopleRepository;
 
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
-public class PeopleService {
+public class UserServiceImp implements UserService {
 
     private final PeopleRepository peopleRepository;
-    private final AuthRepository authRepository;
+
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository, AuthRepository authRepository) {
+    public UserServiceImp(PeopleRepository peopleRepository, RoleRepository authRepository) {
         this.peopleRepository = peopleRepository;
-        this.authRepository = authRepository;
+
     }
 
     public List<User> findAll() {

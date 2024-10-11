@@ -1,16 +1,15 @@
 package SecurityApp.services;
 
+import SecurityApp.models.User;
+import SecurityApp.models.Auth;
+import SecurityApp.repositories.RoleRepository;
+import SecurityApp.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import SecurityApp.models.Auth;
-import SecurityApp.models.User;
-
-import SecurityApp.repositories.AuthRepository;
-import SecurityApp.repositories.PeopleRepository;
 import SecurityApp.security.PersonDetails;
 
 import java.util.Optional;
@@ -20,10 +19,10 @@ import java.util.Optional;
 public class PersonDetailsService implements UserDetailsService {
 
     private final PeopleRepository peopleRepository;
-    private final AuthRepository authRepository;
+    private final RoleRepository authRepository;
 
     @Autowired
-    public PersonDetailsService(PeopleRepository peopleRepository, AuthRepository authRepository) {
+    public PersonDetailsService(PeopleRepository peopleRepository, RoleRepository authRepository) {
         this.peopleRepository = peopleRepository;
         this.authRepository = authRepository;
     }

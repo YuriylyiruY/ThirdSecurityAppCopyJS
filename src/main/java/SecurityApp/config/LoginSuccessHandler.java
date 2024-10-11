@@ -1,4 +1,4 @@
-package SecurityApp.handler;
+package SecurityApp.config;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +28,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         } else if (isUser) {
             httpServletResponse.sendRedirect("userPage");
         } else {
-            httpServletResponse.sendRedirect("login");
+            httpServletResponse.sendRedirect("auth/login");
         }
     }
 }

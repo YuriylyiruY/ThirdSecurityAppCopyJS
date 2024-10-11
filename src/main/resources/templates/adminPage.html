@@ -450,7 +450,8 @@
 <div class="container-fluid ">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid d-flex justify-content-between">
-            <div class="navbar-brand">admin@mail.ru</div>
+            <div th:object="${user}" class="navbar-brand" > admin@mail.ru with roles:  <span th:each="p:${user.getAuths()}"><span th:text="${p.getRole()}"></span> </span></div>
+
 
 
             <form class="d-flex btnLogOut" th:action="@{/logout}" th:method="POST">
