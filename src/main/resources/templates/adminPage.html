@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+<!--   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"-->
+<!--            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"-->
+<!--            crossorigin="anonymous"></script>-->
 
-    <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-            crossorigin="anonymous"></script>-->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-              integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-              crossorigin="anonymous"></script>-->
-    <script type="text/javascript" th:src="@{/js/js.js}"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"-->
+<!--            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"-->
+<!--              integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"-->
+<!--              crossorigin="anonymous"></script>-->
+
 
     <style>
         .navbar {
@@ -22,6 +22,12 @@
             padding-bottom: 1.3rem;
         }
 
+        .show{
+            display:block;
+        }
+        .hidden {
+            display: none;
+        }
         .navbar-brand {
             padding-left: 20px;
         }
@@ -237,6 +243,8 @@
             position: relative;
             left:19px;
 
+
+
         }
 
         .addNewUser {
@@ -256,7 +264,7 @@
 
         }
         .addNewUserCol12{
-            height: 0;
+            height: 57px;
 
         }
 
@@ -280,27 +288,34 @@
             background-color: white;
             margin-left:19px;
         }
+
+
     </style>
+
+
+
 
     <title>Index</title>
 
 
 </head>
-<body>
-
-<!-- ModalDelete -->
-<div th:classappend="${user.getName()}" th:each="user:${people}" class="  modal fade"
-     th:id="'cus'+${user.getName()}" tabindex="-1"
+<body class="body">
+<!-- ModalDelete --> <!--th:id="'cus'+${user.getNane()}"-->
+<div class="logMod">
+<div th:each="user:${people}" >
+<div   th:id="${user.getId()}"  th:classappend="'deleteS'+${user.getId()}"  class="modal fade modalBlockDelete"
+     tabindex="-1"
      aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+     aria-hidden="false">
     <div th:classappend="${user.getId()}" class="modal-dialog modalAbsolute">
         <div th:classappend="${user.getId()}" class="modal-content modalAbsolute2">
             <div th:classappend="${user.getId()}" class="modal-header">
                 <h1 th:classappend="${user.getId()}" class="modal-title fs-5" id="exampleModalLabel">Modal
                     title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                <button  th:id="${user.getId()}" type="button" class="btn-close btnDeleteClose" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
+            <!-- FORM FORM FORM DELETE--->
             <div th:classappend="${user.getId()}" class="  modal-body">
                 <form th:method="POST" th:action="@{/} " th:object="${userS}"
                       class="row  modal-form needs-validation">
@@ -353,35 +368,38 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button  th:id="${user.getId()}" type="button" class="btn btn-secondary btnDeleteClose2" data-bs-dismiss="modal">
                     Close
                 </button>
-
-                <form th:method="POST" th:action="@{/del/{id}(id=${user.getId()})}">
+                     <!--Small form hear----------------------------------------------------------->
+                <form class="smallForm" th:method="DELETE" th:action="@{/api/exampddle/{id}(id=${user.getId()})}">
                     <input type="hidden" name="id" th:value="${user.getId()}"/>
-                    <input type="submit" class="btn btn-danger" value="Delete"/>
+                    <input th:id="${user.getId()}" th:classappend="'btn'+${user.getId()}" type="submit" class="btn btn-danger btnDeleteActive" value="Delete"/>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal2Edit -->
-<div th:classappend="${user.getName()}" th:each="user:${people}" class="modal fade" th:id="${user.getName()}"
+</div>
+</div>
+<!-- Modal2Edit ------------------------------------------------------------------------------>
+<div class="logCreate">
+<div th:each="user:${people}" >
+<div th:classappend="'createS'+${user.getId()}"  class="modal fade modalBlockCreate" th:id="${user.getId()}"
      tabindex="-1"
      aria-labelledby="exampleModalLabel2"
-     aria-hidden="true">
+     aria-hidden="false">
     <div th:classappend="${user.getId()}" class="modal-dialog">
         <div th:classappend="${user.getId()}" class="modal-content">
             <div th:classappend="${user.getId()}" class="modal-header">
                 <h1 th:classappend="${user.getId()}" class="modal-title fs-5" id="exampleModalLabel2">Modal
                     title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                <button  th:id="${user.getId()}" type="button" class="btn-close btnActiveCreateUp" data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
             <div th:classappend="${user.getId()}" class="modal-body2">
-                <form th:method="POST" th:action="@{/{id}(id=${user.getId()})}"
-                      class="row modal-form1 needs-validation">
+                <form th:method="PUT" th:action="@{/api/users}"
+                      class="row modal-form1 needs-validation editForm">
                     <input type="hidden" name="id" th:value="${user.getId()}"/>
                     <div class="mbForm">
                         <label for="exampleFormControlInput34" class="formLabel1 form-label">ID</label>
@@ -436,7 +454,7 @@
 
 
                     <div class="modal-footer footerStyle1">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button th:id="${user.getId()}" type="button" class="btn btn-secondary btnActiveCreateDown" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-info">Edit</button>
                     </div>
                 </form>
@@ -445,8 +463,9 @@
         </div>
     </div>
 </div>
-
-<!--Nav-->
+</div>
+</div>
+<!--Nav------------------------------------------------------------------------------------------------------------------------>
 <div class="container-fluid ">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid d-flex justify-content-between">
@@ -461,40 +480,41 @@
         </div>
     </nav>
 </div>
-<!--TableModal3Create-->
+<!--TableModal3Create---------------------------------------------------------------------------------------------------------->
 <div class="container-fluid d-flex flex-row ">
     <div class="btn-group   flex-column col-2  groupBtn" role="group" aria-label="Default button group">
 
         <button type="button" class="btn btn-outline-primary active">Admin</button>
-        <a type="button" class="btn   user" th:href="@{/adminUserPage}">User</a>
+        <button type="button" class="btn   user"  >User</button>
 
     </div>
     <div class="container-fluid superAdmin">
-        <div class="container  row col-12 adminPanel">
+        <div class="container  row col-12 adminPanel ">
 
             <div class="col-12 adminPanelS">Admin panel</div>
+            <div class="logLastProblem">
             <div class="btn-group  col-3 groupBtn1" role="group" aria-label="Large button group">
-
-                <button type="button" class="btn1 btn btn-outline-primary" data-bs-toggle="collapse"
+<!------  buttons Users table and New User---------------------------------------------------------------------------->
+                <button type="button" class="btn1 btn btn-outline-primary close-new-user popupOp getAllUsersJS" data-bs-toggle="collapse"
                         data-bs-target=".multi-collapse" aria-expanded="true"
-                        aria-controls="multiCollapseExample1 multiCollapseExample2">Users table
+                        aria-controls="multiCollapseExample1 multiCollapseExample2 ">Users table
                 </button>
-                <button type="button" class="btn1 btn2 btn btn-outline-primary" data-bs-toggle="collapse"
+                <button type="button" class="btn1 btn2 btn btn-outline-primary close-admin-panel popupCl" data-bs-toggle="collapse"
                         data-bs-target=".multi-collapse" aria-expanded="false"
                         aria-controls="multiCollapseExample2 multiCollapseExample1">New User
                 </button>
 
             </div>
-            <div class="forFormCreateSuper  row">
+            <div class="forFormCreateSuper row">
 
-
-                <div class="container-fluid row collapse multi-collapse addNewUserSuper col-12"
+<!-------------------popup close NewUser------------------------------------------------------------------------->
+                <div class="container-fluid row collapse multi-collapse addNewUserSuper col-12 popupCloseNewUser"
                      id="multiCollapseExample2">
                     <div class=" container-fluid addNewUserCol12 col-12"><p class="addNewUser">Add new user</p></div>
 
                     <div class="container col-12  d-flex flex-row formHeightReg">
-                        <form th:method="POST" th:action="@{/} " th:object="${userS}"
-                              class="row modal-form2 needs-validation">
+                        <form th:method="POST" th:action="@{/api/users} " th:object="${userS}"
+                              class="row modal-form2 needs-validation newUserSubmitJS">
 
 
                             <div class="mbForm">
@@ -555,11 +575,13 @@
                     </div>
                 </div>
             </div>
-            <div class="container-fluid collapse  block2 multi-collapse show" id="multiCollapseExample1">
+
+<!------------------popup close Admin panel---------------------------------------------------------------------->
+            <div class="container-fluid collapse  block2 multi-collapse popupCloseAdminPanel show " id="multiCollapseExample1">
                 <div class="allUsers p-2 ps-4">All users!</div>
                 <div class=" container col-md-12 d-flex flex-row ">
-                   <!-- container col-md-9-->
-                    <table class="table table-striped">
+                   <!-- container TABLE col-md-9------------------------------------------------->
+                    <table class="table table-striped log">
                         <thead >
                         <tr>
                             <th scope="col">ID</th>
@@ -573,8 +595,8 @@
 
                         </tr>
                         </thead>
-                        <tbody class=" table table-striped" th:class="${user.getId()}" th:each="user:${people}">
-                        <tr>
+                        <tbody class=" table table-striped  flex-column " th:class="${user.getId()} " >
+                        <tr  th:each="user:${people}">
                             <td th:text="${user.getId()}">Otto</td>
                             <td th:text="${user.getName()}"></td>
                             <td th:text="${user.getLastName()}"></td>
@@ -586,19 +608,19 @@
                                 </div>
                             </td>
 
-                            <td>      <!-- Button trigger modal -->
-                                <button th:classappend="${user.getId()}" type="button" class="  btn btn-info "
+                            <td>      <!-- Button trigger modal Edit-------------------------->
+                                <button th:id="${user.getId()}" th:classappend="${user.getId()}" type="button" class="  btn btn-info btnActiveCreateThis"
                                         data-bs-toggle="modal"
                                         th:attr="data-bs-target='#'+${user.getName() }">
                                     Edit
                                 </button>
                             </td>
 
-                            <td>    <!-- Button trigger modal -->
-                                <button th:classappend="${user.getEmail()}" type="button" class=" btn btn-danger"
+                            <td>    <!-- Button trigger modal Delete this----------------->
+                                <button th:id="${user.getId()}" th:classappend="${user.getId()}"  type="button" class=" btn btn-danger btnDel"
                                         data-bs-toggle="modal"
                                         th:attr="data-bs-target='#cus'+${user.getName() }">
-                                    Delete
+                                    Delete This
                                 </button>
                             </td>
 
@@ -610,14 +632,21 @@
                 </div>
 
             </div>
-
+        </div>
 
         </div>
 
 
     </div>
 </div>
+<!--<script>-->
+<!--    let d = new Date();-->
+<!--    document.body.innerHTML = "<h1>Today's date is " + d + "</h1>"-->
+<!--</script>-->
+
 
 </body>
+<script type="text/javascript" th:src="@{/js/jsExp.js}"></script>
+<script type="text/javascript" th:src="@{/js/js.js}"></script>
 
 </html>

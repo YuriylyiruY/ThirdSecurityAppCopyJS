@@ -1,0 +1,145 @@
+
+
+
+            <div class="btn-group  col-3 groupBtn1" role="group" aria-label="Large button group">
+                <!------  buttons Users table and New User---------------------------------------------------------------------------->
+                <button type="button" class="btn1 btn btn-outline-primary close-new-user popupOpfff getAllUsersJS getAllUsersJSVr" data-bs-toggle="collapse"
+                        data-bs-target=".multi-collapse" aria-expanded="true"
+                        aria-controls="multiCollapseExample1 multiCollapseExample2 ">Users table
+                </button>
+                <button type="button" class="btn1 btn2 btn btn-outline-primary close-admin-panel popupClfff" data-bs-toggle="collapse"
+                        data-bs-target=".multi-collapse" aria-expanded="false"
+                        aria-controls="multiCollapseExample2 multiCollapseExample1">New User
+                </button>
+
+            </div>
+            <div class="forFormCreateSuper row">
+
+                <!-------------------popup close NewUser------------------------------------------------------------------------->
+                <div class="container-fluid row collapse multi-collapse addNewUserSuper col-12 popupCloseNewUser fff"
+                     id="multiCollapseExample2">
+                    <div class=" container-fluid addNewUserCol12 col-12"><p class="addNewUser">Add new user</p></div>
+
+                    <div class="container col-12  d-flex flex-row formHeightReg">
+                        <form th:method="POST" th:action="@{/api/users} " th:object="${userS}"
+                              class="row modal-form2 needs-validation newUserSubmitJS formF">
+
+
+                            <div class="mbForm">
+                                <label for="exampleFormControlInput40" class="formLabel form-label">First name</label>
+                                <input type="text" th:name="name" class="mbFormInput2 form-control"
+                                       id="exampleFormControlInput40" th:placeholder="firstname" required>
+
+                            </div>
+                            <div class="mbForm">
+                                <label for="exampleFormControl40" class="formLabel form-label">Last name</label>
+                                <input type="text" th:name="lastName" class="mbFormInput2 form-control"
+                                       id="exampleFormControl40" th:placeholder="lastName" required>
+
+                            </div>
+
+                            <div class="mbForm">
+                                <label for="exampleFormControlInput50" class="formLabel form-label">Age</label>
+                                <input type="number" th:name="age" class="mbFormInput2 form-control"
+                                       id="exampleFormControlInput50" th:placeholder="age" required>
+
+                            </div>
+                            <div class="mbForm">
+                                <label for="exampleFormControlInput30" class="formLabel form-label">Email
+                                    address</label>
+                                <input type="text" th:name="email" class="mbFormInput2 form-control"
+                                       id="exampleFormControlInput30" th:placeholder="email" required>
+
+                            </div>
+                            <div class="mbForm">
+                                <label for="exampleFormControlInput70" class="formLabel form-label">Password</label>
+                                <input type="text" th:name="password"
+                                       class="mbFormInput2 form-control" id="exampleFormControlInput70"
+                                       th:placeholder="password">
+                            </div>
+                            <div class="mbForm" th:object="${ttt}">
+                                <label class="formLabel" for="role1">Roles</label>
+                                <select class="mbFormInput2Select form-select" multiple
+                                        aria-label="multiple select example"
+                                        th:name="role"
+                                        id="role1">
+
+
+                                    <option th:each="role:${list}" th:value="${role}" th:text="${role}">ADMIN
+                                    </option>
+
+                                </select></div>
+
+
+                            <div class="modalFooterCreate">
+                                <button type="submit" class="editBtn1 btn btn btn-success" data-bs-dismiss="modal">
+                                    Add new user
+                                </button>
+
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------popup close Admin panel---------------------------------------------------------------------->
+            <div class="container-fluid collapse  block2 multi-collapse popupCloseAdminPanel ddd show " id="multiCollapseExample1">
+                <div class="allUsers p-2 ps-4">All users!</div>
+                <div class=" container col-md-12 d-flex flex-row ">
+                    <!-- container TABLE col-md-9------------------------------------------------->
+                    <table class="table table-striped log">
+                        <thead >
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+
+                        </tr>
+                        </thead>
+                        <tbody class=" table table-striped  flex-column " th:class="${user.getId()} " >
+                        <tr  th:each="user:${people}">
+                            <td th:text="${user.getId()}">Otto</td>
+                            <td th:text="${user.getName()}"></td>
+                            <td th:text="${user.getLastName()}"></td>
+                            <td th:text="${user.getAge()}">@mdo</td>
+                            <td th:text="${user.getEmail()}">2</td>
+                            <td>
+                                <div th:each="p:${user.getAuths()}">
+                                    <div th:text="${p.getRole()}"></div>
+                                </div>
+                            </td>
+
+                            <td>      <!-- Button trigger modal Edit-------------------------->
+                                <button th:id="${user.getId()}" th:classappend="${user.getId()}" type="button" class="  btn btn-info btnActiveCreateThis"
+                                        data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#'+${user.getName() }">
+                                    Edit
+                                </button>
+                            </td>
+
+                            <td>    <!-- Button trigger modal Delete this----------------->
+                                <button th:id="${user.getId()}" th:classappend="${user.getId()}"  type="button" class=" btn btn-danger btnDel"
+                                        data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#cus'+${user.getName() }">
+                                    Delete This
+                                </button>
+                            </td>
+
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+

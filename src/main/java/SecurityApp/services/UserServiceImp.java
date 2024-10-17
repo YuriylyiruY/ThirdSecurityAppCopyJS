@@ -4,6 +4,8 @@ package SecurityApp.services;
 import SecurityApp.models.User;
 import SecurityApp.repositories.RoleRepository;
 import SecurityApp.repositories.PeopleRepository;
+import org.hibernate.HibernateException;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ public class UserServiceImp implements UserService {
         this.peopleRepository = peopleRepository;
 
     }
+
 
     public List<User> findAll() {
         return peopleRepository.findAll();

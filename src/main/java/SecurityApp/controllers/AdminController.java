@@ -8,26 +8,34 @@ import SecurityApp.services.PersonDetailsService;
 import SecurityApp.services.RegistrationService;
 import SecurityApp.services.RoleService;
 import SecurityApp.util.PersonValidator;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-@Controller
-@RequestMapping("/")
+@RestController
+@RequestMapping("/api")
 public class AdminController {
 
     private final UserService peopleService;
@@ -45,9 +53,9 @@ public class AdminController {
 
     }
 
-    @GetMapping("/adminPage")
-    public String index(Model model, @ModelAttribute("ttt") Auth auth, @ModelAttribute("userS") User user) {
-        model.addAttribute("people", peopleService.findAll());
+    @GetMapping("/users")
+    public ModelAndView index(Model model, @ModelAttribute("ttt") Auth auth, @ModelAttribute("userS") User user) {
+       // model.addAttribute("people", peopleService.findAll());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
@@ -57,37 +65,99 @@ public class AdminController {
 
         model.addAttribute("list", list);
 
-        return "adminPage";
+        ModelAndView modelAndView = new ModelAndView("adminPage");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
+    }
+////////////////////////////////////////////////////////////////////////////example
+    @GetMapping("/example")
+    public ModelAndView indexS(Model model, @ModelAttribute("ttt") Auth auth, @ModelAttribute("userS") User user) {
+        // model.addAttribute("people", peopleService.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+
+
+
+        ModelAndView modelAndView = new ModelAndView("example");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
     }
 
-
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", peopleService.findOne(id));
-        return "show";
-    }
-
-    @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") User user,
-                            @ModelAttribute("ttt") Auth auth,
-                            Model model) {
+    @PutMapping("/example")
+    public ModelAndView updateS(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
+                               @ModelAttribute("ttt") Auth auth,Model model,
+                               HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personDetails.getPerson());
         List<String> list = Arrays.asList("ADMIN", "USER");
 
         model.addAttribute("list", list);
+        if (bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("example");
+            modelAndView.addObject("people",peopleService.findAll() );
 
 
-        return "new";
+            return  modelAndView;
+        }
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        registrationService.registerAdmin(user, auth);
+        peopleService.update(id, user);
+        ModelAndView modelAndView = new ModelAndView("example");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
+    }
+    @PostMapping("/exampleDel/")
+    public ModelAndView deleteS(HttpServletRequest request,Model model) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personDetails.getPerson());
+        List<String> list = Arrays.asList("ADMIN", "USER");
+
+        model.addAttribute("list", list);
+        peopleService.delete(id);
+
+
+
+        ModelAndView modelAndView = new ModelAndView("adminPage");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
     }
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
-    @PostMapping("/")
-    public String create(@ModelAttribute("person") @Valid User user,
-                         @ModelAttribute("ttt") Auth auth,
+    @PostMapping("/users")
+    public ModelAndView create(@ModelAttribute("person") @Valid User user,
+                         @ModelAttribute("ttt") Auth auth,Model model,
                          BindingResult bindingResult) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personDetails.getPerson());
+        List<String> list = Arrays.asList("ADMIN", "USER");
 
+        model.addAttribute("list", list);
         personValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "new";
+        if (bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("adminPage");
+            modelAndView.addObject("people",peopleService.findAll() );
+
+
+            return  modelAndView;
+
+        }
+
         registrationService.makeEncode(user);
         roleService.addRolesToTable(user);
         System.out.println(auth.getRole());
@@ -96,62 +166,170 @@ public class AdminController {
         registrationService.registerAdmin(user, auth);
 
         peopleService.save(user);
-        return "redirect:/adminPage";
+        ModelAndView modelAndView = new ModelAndView("adminPage");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
     }
 
-    @PostMapping("/a")
-    public String createSuperAdmin(@ModelAttribute("persona") @Valid User user,
-                                   BindingResult bindingResult) {
 
-        personValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "admin";
 
-        registrationService.registerSuperAdmin(user);
 
-        peopleService.save(user);
-        return "redirect:/userPage";
-    }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id, @ModelAttribute("ttt") Auth auth) {
-        model.addAttribute("person", peopleService.findOne(id));
-
+    @PutMapping("/users")
+    public ModelAndView update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
+                         @ModelAttribute("ttt") Auth auth,Model model,
+                         HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personDetails.getPerson());
         List<String> list = Arrays.asList("ADMIN", "USER");
 
         model.addAttribute("list", list);
-        return "edit";
-    }
+        if (bindingResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView("adminPage");
+            modelAndView.addObject("people",peopleService.findAll() );
 
-    @PostMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid User user, BindingResult bindingResult,
-                         @ModelAttribute("ttt") Auth auth,
-                         HttpServletRequest request) {
-        if (bindingResult.hasErrors())
-            return "edit";
+
+            return  modelAndView;
+        }
+
         int id = Integer.parseInt(request.getParameter("id"));
         registrationService.registerAdmin(user, auth);
         peopleService.update(id, user);
-        return "redirect:/adminPage";
+        ModelAndView modelAndView = new ModelAndView("adminPage");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
     }
 
-    @PostMapping("/del/{id}")
-    public String delete(HttpServletRequest request) {
+    @DeleteMapping("/users")
+    public ModelAndView delete(HttpServletRequest request,Model model) {
         int id = Integer.parseInt(request.getParameter("id"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personDetails.getPerson());
+        List<String> list = Arrays.asList("ADMIN", "USER");
 
-        peopleService.delete(id);
-        return "redirect:/adminPage ";
+        model.addAttribute("list", list);
+
+           peopleService.delete(id);
+
+
+
+
+        ModelAndView modelAndView = new ModelAndView("adminPage");
+
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+
+        return  modelAndView;
     }
 
     @GetMapping("/adminUserPage")
-    public String userAdminPage(Model model) {
+    public ModelAndView userAdminPage( Model model) {
+
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        System.out.println(personDetails.getPerson());
+        model.addAttribute("user", personDetails.getPerson());
         model.addAttribute("person", personDetails.getPerson());
-        return "adminUserPage";
+
+        ModelAndView modelAndView = new ModelAndView("adminUserPage");
+        modelAndView.addObject("person",personDetails.getPerson() );
+
+
+        return  modelAndView;
     }
+    @GetMapping("/adminPage")
+    public ModelAndView adminPage( Model model) {
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("user", personDetails.getPerson());
+        List<String> list = Arrays.asList("ADMIN", "USER");
+
+        model.addAttribute("list", list);
+
+
+        ModelAndView modelAndView = new ModelAndView("adminPage");
+        modelAndView.addObject("person",peopleService.findAll() );
+
+
+        return  modelAndView;
+    }
+    @GetMapping("/adminPageMod")
+    public ModelAndView adminUserPage( Model model) {
+
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+      // model.addAttribute("user", personDetails.getPerson());
+        List<String> list = Arrays.asList("ADMIN", "USER");
+
+        model.addAttribute("list", list);
+
+
+        ModelAndView modelAndView = new ModelAndView("adminPageMod");
+        modelAndView.addObject("user",personDetails.getPerson() );
+
+
+        return  modelAndView;
+    }
+
+
+
+    //////////////////////////////////////////////////////////
+    @GetMapping("/deleteMod")
+    public ModelAndView indexMod(Model model, @ModelAttribute("ttt") Auth auth, @ModelAttribute("userS") User user) {
+        // model.addAttribute("people", peopleService.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        List<String> list = Arrays.asList("ADMIN", "USER");
+
+        model.addAttribute("list", list);
+
+
+
+
+        ModelAndView modelAndView = new ModelAndView("deleteMod");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/createMod")
+    public ModelAndView indexModCreate(Model model, @ModelAttribute("ttt") Auth auth, @ModelAttribute("userS") User user) {
+        // model.addAttribute("people", peopleService.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        List<String> list = Arrays.asList("ADMIN", "USER");
+
+        model.addAttribute("list", list);
+
+
+
+
+        ModelAndView modelAndView = new ModelAndView("createMod");
+        modelAndView.addObject("people",peopleService.findAll() );
+
+
+        return  modelAndView;
+    }
+
+
+
+
+
 }
+
 
 
 

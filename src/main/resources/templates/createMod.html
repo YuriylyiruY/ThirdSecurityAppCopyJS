@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--ModalCreate-->
+<div th:each="user:${people}" >
+  <div  th:classappend="'createS'+${user.getId()}"  class="modal fade" th:id="${user.getId()}"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel2"
+        aria-hidden="false">
+    <div th:classappend="${user.getId()}" class="modal-dialog">
+      <div th:classappend="${user.getId()}" class="modal-content">
+        <div th:classappend="${user.getId()}" class="modal-header">
+          <h1 th:classappend="${user.getId()}" class="modal-title fs-5" id="exampleModalLabel2">Modal
+            title</h1>
+          <button th:id="${user.getId()}" th:classappend="'btnCreateCloseUp'+ ${user.getId()}" type="button" class="btn-close btnCreateCloseUp" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <div th:classappend="${user.getId()}" class="modal-body2">
+          <form th:classappend="'formCreate'+ ${user.getId()}" th:method="PUT" th:action="@{/api/users}"
+                class="row modal-form1 needs-validation">
+            <input type="hidden" name="id" th:value="${user.getId()}"/>
+            <div class="mbForm">
+              <label for="exampleFormControlInput34" class="formLabel1 form-label">ID</label>
+              <input type="text" class="mbFormInput1 form-control"
+                     id="exampleFormControlInput34" th:placeholder="${user.getId()}" disabled>
+
+            </div>
+            <div class="mbForm">
+              <label for="exampleFormControlInput3" class="formLabel1 form-label">First name</label>
+              <input type="text" th:name="name" th:value="${user.getName()}" class="mbFormInput1 form-control"
+                     id="exampleFormControlInput3" th:placeholder="${user.getName()}" required>
+
+            </div>
+            <div class="mbForm">
+              <label for="exampleFormControlInput33" class="formLabel1 form-label">Last name</label>
+              <input type="text" th:name="lastName" th:value="${user.getLastName()}"
+                     class="mbFormInput1 form-control"
+                     id="exampleFormControlInput33" th:placeholder="${user.getLastName()}" required>
+
+            </div>
+
+            <div class="mbForm">
+              <label for="exampleFormControlInput5" class="formLabel1  form-label">Age</label>
+              <input type="number" th:name="age" th:value="${user.getAge()}" class="mbFormInput1 form-control"
+                     id="exampleFormControlInput5" th:placeholder="${user.getAge()}" required>
+
+            </div>
+            <div class="mbForm">
+              <label for="exampleFormControlInput2" class="formLabel1 form-label">Email address</label>
+              <input type="text" th:name="email" th:value="${user.getEmail()}"
+                     class="mbFormInput1 form-control"
+                     id="exampleFormControlInput2" th:placeholder="${user.getEmail()}" required>
+
+            </div>
+            <div class="mbForm">
+              <label class="formLabel1" for="exampleFormControlInput4">Password</label>
+              <input type="text" th:name="password" th:value="100"
+                     class=" mbFormInput1 form-control" id="exampleFormControlInput4"
+                     th:placeholder="password">
+            </div>
+
+            <div class="mbForm" th:object="${ttt}">
+              <label class="formLabelSelect1" for="role">Roles</label>
+              <select class="mbFormInputSelect1 form-select" multiple aria-label="multiple select example"
+                      th:name="role"
+                      id="role">
+
+
+                <option th:each="role:${list}" th:value="${role}" th:text="${role}">ADMIN</option>
+
+              </select></div>
+
+
+            <div class="modal-footer footerStyle1">
+              <button th:id="${user.getId()}" th:classappend="'btnCreateCloseDown'+ ${user.getId()}" type="button" class="btn btn-secondary btnCreateCloseDown" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-info">Edit</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

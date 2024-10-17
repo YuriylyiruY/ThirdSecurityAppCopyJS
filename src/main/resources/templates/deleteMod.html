@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- ModalDelete --> <!--th:id="'cus'+${user.getNane()}"-->
+<div th:each="user:${people}">
+    <div   th:id="${user.getId()}"  th:classappend="'deleteS'+${user.getId()}"  class="modal fade deleteS"
+           tabindex="-1"
+           aria-labelledby="exampleModalLabel"
+           aria-hidden="false">
+        <div th:classappend="${user.getId()}" class="modal-dialog modalAbsolute">
+            <div th:classappend="${user.getId()}" class="modal-content modalAbsolute2">
+                <div th:classappend="${user.getId()}" class="modal-header">
+                    <h1 th:classappend="${user.getId()}" class="modal-title fs-5" id="exampleModalLabel">Modal
+                        title</h1>
+                    <button th:id="${user.getId()}" th:classappend="'btnDelCloseUp'+ ${user.getId()}" type="button" class="btn-close btnDelCloseUp" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div th:classappend="${user.getId()}" class="  modal-body">
+                    <form th:method="POST" th:action="@{/} " th:object="${userS}"
+                          class="row  modal-form needs-validation formDeleteMod">
+
+                        <div class="mbForm">
+                            <label for="Input30" class="formLabel form-label">ID</label>
+                            <input type="text" th:name="email" class="mbFormInput form-control"
+                                   id="Input30" th:placeholder="${user.getId()}" disabled>
+
+                        </div>
+                        <div class="mbForm">
+                            <label for="Input40" class="formLabel form-label">First name</label>
+                            <input type="text" th:name="name" class="mbFormInput form-control"
+                                   id="Input40" th:placeholder="${user.getName()}" disabled>
+
+                        </div>
+                        <div class="mbForm">
+                            <label for="Input41" class="formLabel form-label">Last name</label>
+                            <input type="text" th:name="lastName" class="mbFormInput form-control"
+                                   id="Input41" th:placeholder="${user.getLastName()}" disabled>
+
+                        </div>
+
+                        <div class="mbForm">
+                            <label for="Input50" class="formLabel form-label">Age</label>
+                            <input type="number" th:name="age" class="mbFormInput form-control"
+                                   id="Input50" th:placeholder="${user.getAge()}" disabled>
+
+                        </div>
+                        <div class="mbForm">
+                            <label for="Input70" class="formLabel form-label">Email</label>
+                            <input type="text" th:name="password"
+                                   class="mbFormInput form-control" id="Input70"
+                                   th:placeholder="${user.getEmail()}" disabled>
+                        </div>
+
+                        <div class="" th:object="${ttt}">
+                            <label class="formLabelSelect" for="role17">Roles</label>
+                            <select class="mbFormInputSelect form-select" multiple aria-label="multiple select example"
+                                    th:name="role"
+                                    id="role17" disabled>
+
+
+                                <option th:each="role:${list}" th:value="${role}" th:text="${role}">ADMIN
+                                </option>
+
+                            </select></div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button th:id="${user.getId()}" th:classappend="'btnDelCloseDown'+ ${user.getId()}" type="button" class="btn btn-secondary btnDelCloseDown" data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <form th:method="POST" th:classappend="'formDel'+ ${user.getId()}" th:class="exampleFormDel" th:action="@{/api/users/{id}(id=${user.getId()})}">
+                        <input type="hidden" name="id" th:value="${user.getId()}"/>
+                        <button th:id="${user.getId()}" type="submit" class="btn btn-danger btnDelete" value="Delete">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
