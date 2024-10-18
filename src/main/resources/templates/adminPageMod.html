@@ -21,7 +21,7 @@
                     <div class=" container-fluid addNewUserCol12 col-12"><p class="addNewUser">Add new user</p></div>
 
                     <div class="container col-12  d-flex flex-row formHeightReg">
-                        <form th:method="POST" th:action="@{/api/users} " th:object="${userS}"
+                        <form th:method="POST" th:action="@{/api/users} " th:object="${user}"
                               class="row modal-form2 needs-validation newUserSubmitJS formF">
 
 
@@ -57,18 +57,22 @@
                                        class="mbFormInput2 form-control" id="exampleFormControlInput70"
                                        th:placeholder="password">
                             </div>
-                            <div class="mbForm" th:object="${ttt}">
-                                <label class="formLabel" for="role1">Roles</label>
-                                <select class="mbFormInput2Select form-select" multiple
-                                        aria-label="multiple select example"
-                                        th:name="role"
-                                        id="role1">
+                            <div class="mbForm  checkbox2">
 
 
-                                    <option th:each="role:${list}" th:value="${role}" th:text="${role}">ADMIN
-                                    </option>
+                                <div>
+                                    <label for="Admin">Admin</label>
 
-                                </select></div>
+
+                                    <input id="Admin" type="checkbox" name="Admin" th:checked="${user.setAdmin(true)}"/>
+
+                                    <label for="User">User</label>
+                                    <input id="User" type="checkbox" name="User" th:checked="${user.setUser(true)}"/>
+
+                                </div>
+
+
+                            </div>
 
 
                             <div class="modalFooterCreate">

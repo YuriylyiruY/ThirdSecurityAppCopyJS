@@ -1,9 +1,8 @@
 package SecurityApp.controllers;
 
-import SecurityApp.security.PersonDetails;
+import SecurityApp.security.UserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ public class UserController {
     @GetMapping("/userPage")
     public ModelAndView userPage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        UserDetails personDetails = (UserDetails) authentication.getPrincipal();
         System.out.println(personDetails.getPerson());
         model.addAttribute("user", personDetails.getPerson());
         ModelAndView modelAndView = new ModelAndView("userPage");
@@ -26,7 +25,7 @@ public class UserController {
     @GetMapping("/showUserInfo")
     public String showUserInfo() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        UserDetails personDetails = (UserDetails) authentication.getPrincipal();
         System.out.println(personDetails.getPerson());
 
         return "hello";

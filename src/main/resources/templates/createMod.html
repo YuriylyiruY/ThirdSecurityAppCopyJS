@@ -63,16 +63,22 @@
                      th:placeholder="password">
             </div>
 
-            <div class="mbForm" th:object="${ttt}">
-              <label class="formLabelSelect1" for="role">Roles</label>
-              <select class="mbFormInputSelect1 form-select" multiple aria-label="multiple select example"
-                      th:name="role"
-                      id="role">
+            <div class="mbForm  checkbox2">
 
 
-                <option th:each="role:${list}" th:value="${role}" th:text="${role}">ADMIN</option>
+              <div>
+                <label for="Admin">Admin</label>
 
-              </select></div>
+
+                <input id="Admin" type="checkbox" name="Admin" th:checked="${userS.setAdmin(true)}"/>
+
+                <label for="User">User</label>
+                <input id="User" type="checkbox" name="User" th:checked="${userS.setUser(true)}"/>
+
+              </div>
+
+
+            </div>
 
 
             <div class="modal-footer footerStyle1">
