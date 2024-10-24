@@ -1,6 +1,7 @@
 package SecurityApp.services;
 
 import SecurityApp.models.User;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -11,5 +12,6 @@ public interface UserService {
      void save(User user);
      void update(int id, User updatedPerson);
      void delete(int id);
+
 
 }

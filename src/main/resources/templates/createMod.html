@@ -20,7 +20,7 @@
                   aria-label="Close"></button>
         </div>
         <div th:classappend="${user.getId()}" class="modal-body2">
-          <form th:classappend="'formCreate'+ ${user.getId()}" th:method="PUT" th:action="@{/api/users}"
+          <form th:classappend="'formCreate'+ ${user.getId()}" th:method="PUT" th:action="@{/api/usersS}"
                 class="row modal-form1 needs-validation">
             <input type="hidden" name="id" th:value="${user.getId()}"/>
             <div class="mbForm">
@@ -70,10 +70,10 @@
                 <label for="Admin">Admin</label>
 
 
-                <input id="Admin" type="checkbox" name="Admin" th:checked="${userS.setAdmin(true)}"/>
+                <input id="Admin" type="checkbox" th:name="admin" th:checked="${userS.setAdmin()}"/>
 
                 <label for="User">User</label>
-                <input id="User" type="checkbox" name="User" th:checked="${userS.setUser(true)}"/>
+                <input id="User" type="checkbox" th:name="user" th:checked="${userS.setUser()}"/>
 
               </div>
 

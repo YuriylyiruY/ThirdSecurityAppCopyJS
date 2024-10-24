@@ -70,7 +70,7 @@
     <h1 class="sign">Please sign in</h1>
     <form name="f" method="POST" action="/process_login">
 
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+      <!--  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
 
         <input type="email" name="username" class="form-control" placeholder="admin@mail.ru"
                aria-describedby="emailHelp">

@@ -24,7 +24,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch((a) -> a.equals("ROLE_USER"));
         if (isAdmin) {
-            httpServletResponse.sendRedirect("api/users");
+            httpServletResponse.sendRedirect("api/usersS");
         } else if (isUser) {
             httpServletResponse.sendRedirect("userPage");
         } else {

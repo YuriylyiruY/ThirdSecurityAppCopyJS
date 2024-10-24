@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 
 @Service
 public class RegistrationServiceImp implements RegistrationService {
@@ -64,21 +66,22 @@ public class RegistrationServiceImp implements RegistrationService {
 //    }
 
     @Transactional
-    public void registerAAdmin(User user, Role auth4, Boolean isAdmin, Boolean isUser) {
-        if (isAdmin == false && isUser == false) {
-            throw new RuntimeException("Not ok! where is Role");
+    public void registerAAdmin(User user, Role auth4, String isAdmin, String isUser) {
+        if (Objects.equals(user.getAdmin(), "") && Objects.equals(user.getUser(), "")) {
+            auth4 = roleService.findRole("ROLE_USER");
+            user.setAuths(auth4);
         }
-        if (isAdmin && isUser) {
+        if (user.getUser().equals("on")&& user.getAdmin().equals("on")) {
             auth4 = roleService.findRole("ROLE_ADMIN");
             user.setAuths(auth4);
             auth4 = roleService.findRole("ROLE_USER");
             user.setAuths(auth4);
         }
-        if (isAdmin) {
+        if (user.getAdmin().equals("on")) {
             auth4 = roleService.findRole("ROLE_ADMIN");
             user.setAuths(auth4);
         }
-        if (isUser) {
+        if (user.getUser().equals("on")) {
             auth4 = roleService.findRole("ROLE_USER");
             user.setAuths(auth4);
         }

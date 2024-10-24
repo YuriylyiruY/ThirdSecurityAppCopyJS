@@ -4,6 +4,7 @@ package SecurityApp.services;
 import SecurityApp.models.User;
 import SecurityApp.repositories.RoleRepository;
 import SecurityApp.repositories.UserRepository;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class UserServiceImp implements UserService {
 
 
     @Autowired
-    public UserServiceImp(UserRepository peopleRepository, RoleRepository authRepository) {
+    public UserServiceImp(       UserRepository peopleRepository, RoleRepository authRepository) {
         this.peopleRepository = peopleRepository;
 
     }

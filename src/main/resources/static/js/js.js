@@ -76,10 +76,29 @@ formSubmit.addEventListener('submit', (evt) => {
 
 function allUsersMethod(evt) {
     const formData = new FormData(evt.target);
-    fetch(
-        'http://localhost:8080/api/users', {
+
+    var object = {};
+// получаем через метод FormData нашу форму
+   // let data = new FormData(form);
+// перебираем поля формы
+    formData.forEach(function (value, key) {
+// создаем классический объект
+        object[key] = value;
+    });
+    var json = JSON.stringify(object);
+// выводим результат в консоль
+    console.log( json);
+
+  fetch(
+        'http://localhost:8080/api/usersS', {
             method: 'POST',
-            body: formData
+          body: json,
+          headers: {
+              "Content-Type": "application/json"
+          }
+
+
+
         },
     )
 
@@ -95,6 +114,7 @@ function allUsersMethod(evt) {
 
                 formSubmit.reset();
                 getWarning();
+
             }
         })
         .catch(() => {
@@ -127,7 +147,7 @@ getAllusers.addEventListener('click', (evt) => {
 function getUsers() {
     fetch('http://localhost:8080/api/example', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -182,7 +202,7 @@ getAllusers2.addEventListener('click', (evt) => {
 function deleteMethodGet() {
     fetch('http://localhost:8080/api/deleteMod', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -220,11 +240,27 @@ function logMod(data) {
                 e.preventDefault();
                 console.log('this is delete button ', e.target.id);
                 const formDataDel = new FormData(e.target);
-                console.log(e.target);
+
+
+
+                var object1 = {};
+
+                formDataDel.forEach(function (value, key) {
+
+                    object1[key] = value;
+                });
+                var json = JSON.stringify(object1);
+
+                console.log( "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",json);
+
+                console.log(JSON.stringify(formDataDel));
                 fetch(
-                    `http://localhost:8080/api/users`, {
+                    `http://localhost:8080/api/usersS`, {
                         method: 'DELETE',
-                        body: formDataDel
+                        body: json,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     },
                 )
 
@@ -276,7 +312,7 @@ function logMod(data) {
 
         fetch('http://localhost:8080/api/example', {
             method: 'get',
-            headers: {"Content-Type": "Content-Type: text/html"}
+            headers: {"Content-Type": "Content-Type: application/json"}
         })
             .then(function (response) {
                 return response.text()
@@ -417,7 +453,7 @@ getAllusers3.addEventListener('click', (evt) => {
 function createMethod() {
     fetch('http://localhost:8080/api/createMod', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -455,10 +491,31 @@ function logCreate(data) {
                 console.log('this is delete button ', e.target.id);
                 const formDataCry = new FormData(e.target);
                 console.log(e.target);
+
+
+
+                var object1 = {};
+
+                formDataCry.forEach(function (value, key) {
+
+                    object1[key] = value;
+                });
+                var json = JSON.stringify(object1);
+
+                console.log( "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",json);
+
+
+
+
+
+
                 fetch(
-                    `http://localhost:8080/api/users`, {
+                    `http://localhost:8080/api/usersS`, {
                         method: 'PUT',
-                        body: formDataCry
+                        body: json,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     },
                 )
 
@@ -601,7 +658,7 @@ function callFetch() {
 
     fetch('http://localhost:8080/api/example', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -621,10 +678,29 @@ deleteUserThis.addEventListener('submit', function (e) {
     console.log('this is delete button ', e.target.id);
     const formDataDelThis = new FormData(e.target);
     console.log(e.target);
+
+
+
+    var object1 = {};
+
+    formDataDelThis.forEach(function (value, key) {
+
+        object1[key] = value;
+    });
+    var json = JSON.stringify(object1);
+
+    console.log( "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",json);
+
+
+
+
     fetch(
-        `http://localhost:8080/api/users`, {
+        `http://localhost:8080/api/usersS`, {
             method: 'DELETE',
-            body: formDataDelThis
+            body: json,
+            headers: {
+                "Content-Type": "application/json"
+            }
         },
     )
 
@@ -674,10 +750,26 @@ createUserThis.addEventListener('submit', function (e) {
     console.log('this is create button ', e.target.id);
     const formDataCreateThis = new FormData(e.target);
     console.log(e.target);
+
+
+    var object1 = {};
+
+    formDataCreateThis.forEach(function (value, key) {
+
+        object1[key] = value;
+    });
+    var json = JSON.stringify(object1);
+
+    console.log( "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",json);
+
+
     fetch(
-        `http://localhost:8080/api/users`, {
+        `http://localhost:8080/api/usersS`, {
             method: 'PUT',
-            body: formDataCreateThis
+            body: json,
+            headers: {
+                "Content-Type": "application/json"
+            }
         },
     )
 
@@ -722,7 +814,7 @@ document.addEventListener('click', function (e) {
 function userMethod() {
     fetch('http://localhost:8080/api/adminUserPage', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -772,7 +864,7 @@ document.addEventListener('click', function (e) {
 function adminMethod() {
     fetch('http://localhost:8080/api/adminPage', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -801,7 +893,7 @@ function logAdmin(data) {
 function adminUserMethod() {
     fetch('http://localhost:8080/api/adminPageMod', {
         method: 'get',
-        headers: {"Content-Type": "Content-Type: text/html"}
+        headers: {"Content-Type": "Content-Type: application/json"}
     })
         .then(function (response) {
             return response.text()
@@ -860,10 +952,27 @@ function logAdminMod(data) {
     formF.addEventListener('submit', (evt) => {
         evt.preventDefault();
         const formDataP = new FormData(evt.target);
+
+
+        var object1 = {};
+
+        formDataP.forEach(function (value, key) {
+
+            object1[key] = value;
+        });
+        var json = JSON.stringify(object1);
+
+        console.log( "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj",json);
+
+
+
         fetch(
-            'http://localhost:8080/api/users', {
+            'http://localhost:8080/api/usersS', {
                 method: 'POST',
-                body: formDataP
+                body: json,
+                headers: {
+                    "Content-Type": "application/json"
+                }
             },
         )
 
@@ -897,7 +1006,7 @@ function logAdminMod(data) {
     function getUsers2() {
         fetch('http://localhost:8080/api/example', {
             method: 'get',
-            headers: {"Content-Type": "Content-Type: text/html"}
+            headers: {"Content-Type": "Content-Type: application/json"}
         })
             .then(function (response) {
                 return response.text()

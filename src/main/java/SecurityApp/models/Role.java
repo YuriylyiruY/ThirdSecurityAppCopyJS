@@ -17,11 +17,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Auth")
+@Table(name = "role")
 public class Role implements GrantedAuthority {
 
     @Id
-    @Column(name = "auth_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int auth_id;
 
@@ -34,9 +34,9 @@ public class Role implements GrantedAuthority {
     @ManyToMany
 
     @JoinTable(
-            name = "Person_Auth"
-            , joinColumns = @JoinColumn(name = "for_auth_id")
-            , inverseJoinColumns = @JoinColumn(name = "for_person_id")
+            name = "role_user"
+            , joinColumns = @JoinColumn(name = "id_role")
+            , inverseJoinColumns = @JoinColumn(name = "id_user")
     )
 
     private Set<User> people = new HashSet<>();

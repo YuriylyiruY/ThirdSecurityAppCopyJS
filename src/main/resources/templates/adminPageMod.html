@@ -64,10 +64,10 @@
                                     <label for="Admin">Admin</label>
 
 
-                                    <input id="Admin" type="checkbox" name="Admin" th:checked="${user.setAdmin(true)}"/>
+                                    <input id="Admin" type="checkbox" th:name="admin" th:checked="${user.setAdmin()}"/>
 
                                     <label for="User">User</label>
-                                    <input id="User" type="checkbox" name="User" th:checked="${user.setUser(true)}"/>
+                                    <input id="User" type="checkbox" th:name="user" th:checked="${user.setUser()}"/>
 
                                 </div>
 

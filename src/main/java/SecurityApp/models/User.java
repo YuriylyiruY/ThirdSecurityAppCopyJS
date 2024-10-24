@@ -9,10 +9,10 @@ import java.util.*;
 
 
 @Entity
-@Table(name = "Person")
+@Table(name = "user")
 public class User {
     @Id
-    @Column(name = "person_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int person_id;
 
@@ -40,44 +40,50 @@ public class User {
     private String password;
 
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinTable(
-            name = "Person_Auth"
-            , joinColumns = @JoinColumn(name = "for_person_id")
-            , inverseJoinColumns = @JoinColumn(name = "for_auth_id")
+            name = "role_user"
+            , joinColumns = @JoinColumn(name = "id_user")
+            , inverseJoinColumns = @JoinColumn(name = "id_role")
     )
+
+
     private Set<Role> auths = new HashSet<>();
-    private Boolean User = false;
 
-    public Boolean getAdmin() {
-        return Admin;
+    @Column(name = "user")
+    private String user = "";
+    @Column(name = "admin")
+    private String admin = "";
+
+    public String getUser() {
+        return user;
     }
 
-    public void setAdmin(Boolean admin) {
-        Admin = admin;
+    public void setUser() {
+        this.user = "on";
     }
 
-    public Boolean getUser() {
-        return User;
+    public String getAdmin() {
+        return admin;
     }
 
-    public void setUser(Boolean user) {
-        User = user;
+    public void setAdmin() {
+        this.admin = "on";
     }
-
-    private Boolean Admin = false;
 
     // Конструктор по умолчанию нужен для Spring
     public User() {
     }
 
-    public User(String name, String lastName, int age, String email, String password, Set<Role> auths) {
+    public User(int person_id, String name, String lastName, int age, String email, String password, String user, String admin) {
+        this.person_id = person_id;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
         this.password = password;
-      //  this.auths = auths;
+        this.user = user;
+        this.admin = admin;
     }
 
     public @NotEmpty(message = "Name should not be empty") @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters") String getLastName() {
@@ -97,8 +103,6 @@ public class User {
         auths.add(auth);
 
     }
-
-
 
 
     @Min(value = 0, message = "Age should be greater than 0")
@@ -145,12 +149,15 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", age=" + age +
-                ", lastName='" + lastName + '\'' +
-                ", name='" + name + '\'' +
-                ", person_id=" + person_id +
-                '}';
+        return "{" +
+                "person_id:" + person_id + "," +
+                " name:" + name + "," +
+                " lastName:" + lastName + "," +
+                " age:" + age + "," +
+                " email:" + email + "," +
+                " password:" + password + "," +
+                " user:" + user + "," +
+                " admin:" + admin +
+                "}"+" ";
     }
 }

@@ -23,10 +23,12 @@
                     <form th:method="POST" th:action="@{/} " th:object="${userS}"
                           class="row  modal-form needs-validation formDeleteMod">
 
+
+
                         <div class="mbForm">
                             <label for="Input30" class="formLabel form-label">ID</label>
                             <input type="text" th:name="email" class="mbFormInput form-control"
-                                   id="Input30" th:placeholder="${user.getId()}" disabled>
+                                   id="Input30" th:placeholder="${user.getEmail()}" disabled>
 
                         </div>
                         <div class="mbForm">
@@ -62,10 +64,10 @@
                                 <label for="Admin">Admin</label>
 
 
-                                <input id="Admin" type="checkbox" name="Admin" th:checked="${userS.setAdmin(true)}"/>
+                                <input id="Admin" type="checkbox" th:name="admin" th:checked="${userS.setAdmin()}"/>
 
                                 <label for="User">User</label>
-                                <input id="User" type="checkbox" name="User" th:checked="${userS.setUser(true)}"/>
+                                <input id="User" type="checkbox" th:name="user" th:checked="${userS.setUser()}"/>
 
                             </div>
 
@@ -80,8 +82,9 @@
                         Close
                     </button>
 
-                    <form th:method="POST" th:classappend="'formDel'+ ${user.getId()}" th:class="exampleFormDel" th:action="@{/api/users/{id}(id=${user.getId()})}">
+                    <form th:method="POST" th:classappend="'formDel'+ ${user.getId()}" th:class="exampleFormDel" th:action="@{/api/users}">
                         <input type="hidden" name="id" th:value="${user.getId()}"/>
+                        <input type="hidden" name="user" th:value="${user}"/>
                         <button th:id="${user.getId()}" type="submit" class="btn btn-danger btnDelete" value="Delete">Delete</button>
                     </form>
                 </div>

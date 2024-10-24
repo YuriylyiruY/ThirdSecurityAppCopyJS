@@ -59,7 +59,7 @@ public class AuthController {
         registrationService.makeEncode(user);
         roleService.addRolesToTable(user);
 
-
+        System.out.println(user.getAdmin());
         //user.setAuths(auth);
         registrationService.registerAAdmin(user, role, user.getAdmin(), user.getUser());
         return "redirect:/auth/login";

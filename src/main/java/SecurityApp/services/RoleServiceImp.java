@@ -24,8 +24,8 @@ public class RoleServiceImp implements RoleService {
     public void addRolesToTable(User user) {
         Role auth = new Role("ROLE_USER");
         Role auth2 = new Role("ROLE_ADMIN");
-
-        if (findByRole("ROLE_USER")) {
+        System.out.println(findByRole("ROLE_USER"));
+        if ( findByRole("ROLE_USER") || findByRole("ROLE_ADMIN")) {
             authRepository.save(auth);
             authRepository.save(auth2);
             // auth.setPeople(user);
